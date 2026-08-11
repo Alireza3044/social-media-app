@@ -1,0 +1,19 @@
+{% load widget_tweaks %}
+
+<div class="space-y-4 w-64">
+  {% if form.non_field_errors %}
+    {% for error in form.non_field_errors %}
+      <p class="bg-red-500 text-white rounded-lg p-1 break-words">{{ error }}</p>
+    {% endfor %}
+  {% endif %}
+  
+  {% for field in form %}
+    <div>
+      <div>{{ field.label_tag }}</div>
+      <div>{{ field|add_class:"px-4 py-2 bg-gray-100 rounded-lg w-full focus:outline-blue-500" }}</div>
+      {% for error in field.errors %}
+        <small class="text-red-500 block break-words">{{ error }}</small>
+      {% endfor %}
+    </div>
+  {% endfor %}
+</div>
