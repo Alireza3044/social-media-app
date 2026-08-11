@@ -9,6 +9,13 @@
   {% tailwind_css %}
 </head>
 <body>
+  {% if messages %}
+    {% for message in messages %}
+      <div class="bg-green-500 text-green-700">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
   {% block content %}{% endblock content %}
 </body>
 </html>
