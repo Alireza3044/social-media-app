@@ -16,6 +16,19 @@
       </div>
     {% endfor %}
   {% endif %}
+  <header>
+    <nav class="flex justify-between items-center bg-blue-400 text-white py-2 px-4 space-x-8">
+      <a href="{% url "accounts:index" %}" class="font-bold text-2xl tracking-tighter">Social Media App</a>
+      {% if not user.is_authenticated %}
+        <div class="space-x-4">
+          <a href="{% url "accounts:login" %}">Login</a>
+          <a href="{% url "accounts:register" %}">Register</a>
+        </div>
+      {% else %}
+        <a href="{% url "accounts:logout" %}">Logout</a>
+      {% endif %}
+    </nav>
+  </header>
   {% block content %}{% endblock content %}
 </body>
 </html>
