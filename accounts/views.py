@@ -4,6 +4,10 @@ from django.contrib.auth import logout
 from . import forms
 
 
+def index_view(request):
+    return render(request, "accounts/index.html")
+
+
 def register_view(request):
     form = forms.RegisterForm(request.POST or None)
 
