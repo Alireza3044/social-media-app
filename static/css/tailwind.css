@@ -324,9 +324,6 @@
     border-style: var(--tw-border-style);
     border-width: 1px;
   }
-  .bg-blue-400 {
-    background-color: var(--color-blue-400);
-  }
   .bg-blue-500 {
     background-color: var(--color-blue-500);
   }
