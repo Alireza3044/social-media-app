@@ -15,6 +15,7 @@
     --color-blue-400: oklch(70.7% 0.165 254.624);
     --color-blue-500: oklch(62.3% 0.214 259.815);
     --color-gray-100: oklch(96.7% 0.003 264.542);
+    --color-gray-500: oklch(55.1% 0.027 264.364);
     --color-black: #000;
     --color-white: #fff;
     --spacing: 0.25rem;
@@ -188,6 +189,9 @@
   .absolute {
     position: absolute;
   }
+  .fixed {
+    position: fixed;
+  }
   .relative {
     position: relative;
   }
@@ -324,6 +328,9 @@
     border-style: var(--tw-border-style);
     border-width: 1px;
   }
+  .bg-blue-400 {
+    background-color: var(--color-blue-400);
+  }
   .bg-blue-500 {
     background-color: var(--color-blue-500);
   }
@@ -396,6 +403,9 @@
   }
   .break-words {
     overflow-wrap: break-word;
+  }
+  .text-gray-500 {
+    color: var(--color-gray-500);
   }
   .text-green-700 {
     color: var(--color-green-700);
