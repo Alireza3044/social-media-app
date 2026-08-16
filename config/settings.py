@@ -160,3 +160,8 @@ LOGGING = {
         "level": "DEBUG",
     },
 }
+
+# Authentication
+
+LOGIN_URL = 'accounts:login'
+LOGIN_REDIRECT_URL = 'accounts:index'
