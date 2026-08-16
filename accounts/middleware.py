@@ -10,9 +10,12 @@ class AuthenticationMiddleware:
 
     def __init__(self, get_response):
         self.get_response = get_response
+        
+        self.index_url = reverse("accounts:index")
         self.register_url = reverse("accounts:register")
         self.login_url = reverse("accounts:login")
         self.logout_url = reverse("accounts:logout")
+        
         # Public URLs that don't require authentication
         self.public_urls = [
             self.register_url,
@@ -29,7 +32,7 @@ class AuthenticationMiddleware:
             if request.path.startswith(self.register_url) or request.path.startswith(self.login_url):
                 logger.debug(f"Authenticated user redirected from auth page: {request.path}")
                 
-                return redirect("home")
+                return redirect(self.index_url)
             return self.get_response(request)
         
         # Unauthenticated users
@@ -46,4 +49,4 @@ class AuthenticationMiddleware:
             
             # Redirect to login for protected pages
             logger.info(f"Redirecting unauthenticated user to login: {request.path}")
-            return redirect("accounts:login")
+            return redirect(self.login_url)
