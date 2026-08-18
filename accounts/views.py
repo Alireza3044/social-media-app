@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.contrib import messages
-from django.contrib.auth import logout
+from django.contrib.auth import logout, views
+from django.views.generic import TemplateView
 from . import forms
 
 
-def index_view(request):
-    return render(request, "accounts/index.html")
+class IndexView(TemplateView):
+    template_name = "accounts/index.html"
 
 
 def register_view(request):
@@ -21,6 +23,21 @@ def register_view(request):
     return render(request, "accounts/register.html", { "form": form })
 
 
+class LoginView(views.LoginView):
+    template_name = "accounts/login.html"
+    form_class = forms.LoginForm
+
+
 def logout_view(request):
     logout(request)
     return render(request, "accounts/logout.html")
+
+
+class PasswordChangeView(views.PasswordChangeView):
+    template_name = "accounts/password_change.html"
+    form_class = forms.PasswordChangeForm
+    success_url = reverse_lazy("accounts:password-change-done")
+
+
+class PasswordChangeDoneView(views.PasswordChangeDoneView):
+    template_name = "accounts/password_change_done.html"
