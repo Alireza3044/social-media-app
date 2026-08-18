@@ -20,6 +20,8 @@ class AuthenticationMiddleware:
         self.public_urls = [
             self.register_url,
             self.login_url,
+            reverse("accounts:password-reset"),
+            reverse("accounts:password-reset-done"),
             "/admin/",
         ]
     
