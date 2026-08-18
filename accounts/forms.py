@@ -18,3 +18,7 @@ class LoginForm(auth_forms.AuthenticationForm):
 
 class PasswordChangeForm(auth_forms.PasswordChangeForm):
     template_name="accounts/form_snippet.html"
+
+
+class PasswordResetForm(auth_forms.PasswordResetForm):
+    template_name="accounts/form_snippet.html"

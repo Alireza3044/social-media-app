@@ -41,3 +41,9 @@ class PasswordChangeView(views.PasswordChangeView):
 
 class PasswordChangeDoneView(views.PasswordChangeDoneView):
     template_name = "accounts/password_change_done.html"
+
+
+class PasswordResetView(views.PasswordResetView):
+    template_name = "accounts/password_reset.html"
+    form_class = forms.PasswordResetForm
+    success_url = reverse_lazy("accounts:password-reset-done")
