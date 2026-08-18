@@ -22,6 +22,8 @@ class AuthenticationMiddleware:
             self.login_url,
             reverse("accounts:password-reset"),
             reverse("accounts:password-reset-done"),
+            reverse("accounts:password-reset-confirm"),
+            reverse("accounts:password-reset-complete"),
             "/admin/",
         ]
     
