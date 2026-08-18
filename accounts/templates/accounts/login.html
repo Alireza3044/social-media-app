@@ -6,7 +6,10 @@
       <h1 class="text-center text-3xl font-bold spacing-tight">Login</h1>
       {% csrf_token %}
       {{ form }}
-      <button class="bg-blue-500 text-white font-bold px-4 py-2 w-full rounded-lg" type="submit">Login</button>
+      <div class="w-64">
+        <button class="bg-blue-500 text-white font-bold px-4 py-2 w-full rounded-lg cursor-pointer" type="submit">Login</button>
+        <a href={% url "accounts:password-reset" %} class="text-blue-500 text-sm">Forgot your password? click here.</a>
+      </div>
     </form>
   </div>
 {% endblock content %}
