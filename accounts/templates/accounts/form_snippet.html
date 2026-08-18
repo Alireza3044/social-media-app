@@ -1,6 +1,6 @@
 {% load widget_tweaks %}
 
-<div class="space-y-4 w-64">
+<div class="space-y-4">
   {% if form.non_field_errors %}
     {% for error in form.non_field_errors %}
       <p class="bg-red-500 text-white rounded-lg p-1 break-words">{{ error }}</p>
