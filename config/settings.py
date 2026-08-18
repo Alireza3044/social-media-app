@@ -165,3 +165,7 @@ LOGGING = {
 
 LOGIN_URL = 'accounts:login'
 LOGIN_REDIRECT_URL = 'accounts:index'
+
+# Emailing
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
