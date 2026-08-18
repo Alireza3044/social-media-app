@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="flex flex-col justify-center items-center min-h-screen p-10">
+    <form method="post" class="shadow-2xl px-10 py-6 rounded-lg w-90">
+      {% csrf_token %}
+      <h1 class="text-center text-3xl font-bold spacing-tight mb-4">{{ header }}</h1>
+      {% if message %}
+        <p class="mb-4">{{ message }}</p>
+      {% endif %}
+      {{ form }}
+      <div>
+        <button class="bg-blue-500 text-white font-bold mt-4 px-4 py-2 w-full rounded-lg cursor-pointer" type="submit">{{ btn_text }}</button>
+        {% block forgot_password %}{% endblock forgot_password %}
+      </div>
+    </form>
+  </div>
+{% endblock content %}

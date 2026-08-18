@@ -1,15 +1,5 @@
-{% extends "base.html" %}
+{% extends "accounts/box_form.html" %}
 
-{% block content %}
-  <div class="flex flex-col justify-center items-center min-h-screen p-10">
-    <form method="post" class="shadow-2xl space-y-4 p-10 rounded-lg w-90">
-      <h1 class="text-center text-3xl font-bold spacing-tight">Login</h1>
-      {% csrf_token %}
-      {{ form }}
-      <div class="w-64">
-        <button class="bg-blue-500 text-white font-bold px-4 py-2 w-full rounded-lg cursor-pointer" type="submit">Login</button>
-        <a href={% url "accounts:password-reset" %} class="text-blue-500 text-sm">Forgot your password? click here.</a>
-      </div>
-    </form>
-  </div>
-{% endblock content %}
+{% block forgot_password %}
+  <a href={% url "accounts:password-reset" %} class="text-blue-500 text-sm">Forgot your password? click here.</a>
+{% endblock forgot_password %}

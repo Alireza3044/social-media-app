@@ -20,45 +20,100 @@ def register_view(request):
             messages.success(request, f"Welcome {username}, your account has been created successfuly.")
             return redirect("accounts:login")
 
-    return render(request, "accounts/register.html", { "form": form })
+    context = {
+        "form": form,
+        "header": "Register",
+        "btn_text": "Register",
+    }
+    return render(request, "accounts/box_form.html", context)
 
 
 class LoginView(views.LoginView):
     template_name = "accounts/login.html"
     form_class = forms.LoginForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["header"] = "Login"
+        context["btn_text"] = "Login"
+        return context
+
 
 def logout_view(request):
     logout(request)
-    return render(request, "accounts/logout.html")
+
+    context = {
+        "header": "You have been logged out.",
+        "btn_text": "Go to Login",
+        "path_name": "accounts:login"
+    }
+    return render(request, "accounts/box_message.html", context=context)
 
 
 class PasswordChangeView(views.PasswordChangeView):
-    template_name = "accounts/password_change.html"
+    template_name = "accounts/box_form.html"
     form_class = forms.PasswordChangeForm
     success_url = reverse_lazy("accounts:password-change-done")
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["header"] = "Password Change"
+        context["btn_text"] = "Change"
+        return context
+
 
 class PasswordChangeDoneView(views.PasswordChangeDoneView):
-    template_name = "accounts/password_change_done.html"
+    template_name = "accounts/box_message.html"
 
+    def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context["header"] = "Your Password has been changed"
+            context["btn_text"] = "Go to Index"
+            context["path_name"] = "accounts:index"
+            return context
 
 class PasswordResetView(views.PasswordResetView):
-    template_name = "accounts/password_reset.html"
+    template_name = "accounts/box_form.html"
     form_class = forms.PasswordResetForm
     success_url = reverse_lazy("accounts:password-reset-done")
     email_template_name = "accounts/password_reset_email.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["header"] = "Password Reset"
+        context["btn_text"] = "Submit"
+        context["message"] = "Please enter your email. We would send you an email consisting the link for resetting your password."
+        return context
+
 
 class PasswordResetDoneView(views.PasswordResetDoneView):
-    template_name = "accounts/password_reset_done.html"
+    template_name = "accounts/box_message.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["header"] = "Your email has been sent"
+        context["message"] = "Check your inbox for the password reset link."
+        return context
 
 
 class PasswordResetConfirmView(views.PasswordResetConfirmView):
-    template_name = "accounts/password_reset_confirm.html"
+    template_name = "accounts/box_form.html"
     form_class = forms.PasswordResetConfirmForm
     success_url = reverse_lazy("accounts:password-reset-complete")
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["header"] = "Password Reset"
+        context["btn_text"] = "Reset"
+        return context
+
 
 class PasswordResetCompleteView(views.PasswordResetCompleteView):
-    template_name = "accounts/password_reset_complete.html"
+    template_name = "accounts/box_message.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["header"] = "Password Reset"
+        context["btn_text"] = "Go to Login"
+        context["path_name"] = "accounts:login"
+        return context
