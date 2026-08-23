@@ -18,7 +18,7 @@
   {% endif %}
   <header class="fixed w-full">
     <nav class="flex justify-between items-center bg-blue-500 text-white py-2 px-4 space-x-8">
-      <a href="{% url "accounts:index" %}" class="font-bold text-2xl tracking-tighter">Social Media App</a>
+      <a href="{% url "accounts:profile" %}" class="font-bold text-2xl tracking-tighter">Social Media App</a>
       {% if not user.is_authenticated %}
         <div class="space-x-4">
           <a href="{% url "accounts:login" %}">Login</a>

@@ -164,7 +164,7 @@ LOGGING = {
 # Authentication
 
 LOGIN_URL = 'accounts:login'
-LOGIN_REDIRECT_URL = 'accounts:index'
+LOGIN_REDIRECT_URL = 'accounts:profile'
 
 # Emailing
 

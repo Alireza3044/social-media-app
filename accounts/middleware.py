@@ -37,7 +37,7 @@ class AuthenticationMiddleware:
             for url in self.logged_in_excluded_urls:
                 if request.path.startswith(url):
                     logger.debug(f"Authenticated user redirected from auth page: {request.path}")
-                    return redirect("accounts:index")
+                    return redirect("accounts:profile")
             return self.get_response(request)
         
         # Not Authenticated

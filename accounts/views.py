@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 from . import forms
 
 
-class IndexView(TemplateView):
+class ProfileView(TemplateView):
     template_name = "accounts/index.html"
 
 
@@ -69,7 +69,7 @@ class PasswordChangeDoneView(views.PasswordChangeDoneView):
             context = super().get_context_data(**kwargs)
             context["header"] = "Your Password has been changed"
             context["btn_text"] = "Go to Index"
-            context["path_name"] = "accounts:index"
+            context["path_name"] = "accounts:profile"
             return context
 
 class PasswordResetView(views.PasswordResetView):
