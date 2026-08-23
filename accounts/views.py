@@ -7,7 +7,7 @@ from . import forms
 
 
 class ProfileView(TemplateView):
-    template_name = "accounts/index.html"
+    template_name = "accounts/profile.html"
 
 
 def register_view(request):
