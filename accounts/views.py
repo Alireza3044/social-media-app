@@ -10,6 +10,32 @@ class ProfileView(TemplateView):
     template_name = "accounts/profile.html"
 
 
+def profile_edit_view(request):
+    if request.method == "POST":
+        user_form = forms.UserEditForm(data=request.POST, instance=request.user)
+        profile_form = forms.ProfileEditForm(
+            data=request.POST,
+            files=request.FILES,
+            instance=request.user.profile
+        )
+        
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect("accounts:profile")
+    
+    if request.method == "GET":
+        user_form = forms.UserEditForm(instance=request.user)
+        profile_form = forms.ProfileEditForm(instance=request.user.profile)
+        context = {
+            "user_form": user_form,
+            "profile_form": profile_form,
+            "header": "Edit Profile",
+            "btn_text": "Submit",
+        }
+        return render(request, "accounts/profile_edit.html", context)
+
+
 def register_view(request):
     form = forms.RegisterForm(request.POST or None)
 
