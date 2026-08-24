@@ -10,7 +10,7 @@
   {% for field in form %}
     <div>
       <div>{{ field.label_tag }}</div>
-      <div>{{ field|add_class:"px-4 py-2 bg-gray-100 rounded-lg w-full focus:outline-blue-500" }}</div>
+      <div>{{ field|add_class:"px-4 py-2 bg-gray-100 rounded-lg w-full shadow focus:outline-blue-500" }}</div>
       {% for error in field.errors %}
         <small class="text-red-500 block break-words">{{ error }}</small>
       {% endfor %}
