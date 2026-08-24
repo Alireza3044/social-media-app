@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% for post in posts %}
+    <img class="w-32 h-32" src="{{ post.image.url }}" alt="{{ post.title }}">
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.caption }}</p>
+  {% endfor %}
+{% endblock content %}
