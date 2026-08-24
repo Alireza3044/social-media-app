@@ -5,13 +5,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="/static/images/logo.png" type="image/png">
   <title>Social Media App</title>
   {% tailwind_css %}
 </head>
 <body>
   <header class="fixed w-full h-12">
     <nav class="flex justify-between items-center bg-blue-500 text-white py-2 px-4 space-x-8">
-      <a href="{% url "accounts:profile" %}" class="font-bold text-2xl tracking-tighter">Social Media App</a>
+        <a href="{% url "posts:post-list" %}" class="font-bold text-2xl tracking-tighter flex space-x-2 items-center">
+          <img class="w-8 h-8" src="/static/images/logo.png">
+          <span>Social Media App</span>
+        </a>
+      </div>
       {% if not user.is_authenticated %}
         <div class="space-x-4">
           <a href="{% url "accounts:login" %}">Login</a>
