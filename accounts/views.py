@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth import logout, views
 from django.views.generic import TemplateView
-from . import forms
+from . import forms, models
 
 
 class ProfileView(TemplateView):
@@ -37,7 +37,9 @@ def register_view(request):
 
     if request.method == "POST":
         if form.is_valid():
-            form.save()
+            user = form.save()
+            models.Profile.objects.create(user=user)
+            
             username = form.cleaned_data.get("username")
             messages.success(request, f"Welcome {username}, your account has been created successfuly.")
             return redirect("accounts:login")
