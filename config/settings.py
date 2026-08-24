@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_tailwind_cli',
     'widget_tweaks',
     'accounts',
+    'posts',
 ]
 
 MIDDLEWARE = [
