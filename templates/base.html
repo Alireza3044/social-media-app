@@ -9,7 +9,7 @@
   {% tailwind_css %}
 </head>
 <body>
-  <header class="fixed w-full">
+  <header class="fixed w-full h-12">
     <nav class="flex justify-between items-center bg-blue-500 text-white py-2 px-4 space-x-8">
       <a href="{% url "accounts:profile" %}" class="font-bold text-2xl tracking-tighter">Social Media App</a>
       {% if not user.is_authenticated %}
@@ -21,14 +21,19 @@
         <a href="{% url "accounts:logout" %}">Logout</a>
       {% endif %}
     </nav>
-    {% if messages %}
-      {% for message in messages %}
-        <div class="fixed w-full bg-green-500 text-green-700">
-          {{ message }}
-        </div>
-      {% endfor %}
-    {% endif %}
   </header>
-  {% block content %}{% endblock content %}
+  <main class="pt-12">
+    {% if messages %}
+      <div>
+        {% for message in messages %}
+          <div class="bg-green-500 text-green-700">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    
+    {% block content %}{% endblock content %}
+  </main>
 </body>
 </html>
