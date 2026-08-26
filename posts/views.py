@@ -3,10 +3,18 @@ from django.views.generic import ListView, CreateView
 from . import models, forms
 
 
-class PostListView(ListView):
+class FeedView(ListView):
     model = models.Post
     template_name = "posts/post_list.html"
     context_object_name = "posts"
+
+
+class PostListView(ListView):
+    template_name = "posts/post_list.html"
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        return models.Post.objects.filter(user=self.request.user)
 
 
 class PostCreateView(CreateView):
