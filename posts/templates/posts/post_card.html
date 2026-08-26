@@ -1,15 +1,15 @@
 <div class="w-128 px-4 py-2 space-y-3">
   <!-- User profile image and username -->
   <div class="flex items-center space-x-3 px-1">
-    <img class="w-10 h-10 object-cover rounded-full" src="{{ user.profile.image.url }}" alt="image of {{ user.username }}">
-    <p class="font-bold">{{ user.username }}</p>
+    <img class="w-10 h-10 object-cover rounded-full" src="{{ post.user.profile.image.url }}" alt="image of {{ post.user.username }}">
+    <p class="font-bold">{{ post.user.username }}</p>
   </div>
   <img class="w-full max-h-full" src="{{ post.image.url }}" alt="{{ post.title }}">
   <div class="px-1">
     <div class="flex space-x-4 mb-2">
-      <button><img class="w-8 h-8 object-cover" src="/static/images/like.png" alt="like button"></button>
-      <button><img class="w-8 h-8 object-cover" src="/static/images/comment.png" alt="comment button"></button>
-      <button><img class="w-8 h-8 object-cover" src="/static/images/share.png" alt="share button"></button>
+      <button class="cursor-pointer"><img class="w-8 h-8 object-cover" src="/static/images/like.png" alt="like button"></button>
+      <button class="cursor-pointer"><img class="w-8 h-8 object-cover" src="/static/images/comment.png" alt="comment button"></button>
+      <button class="cursor-pointer"><img class="w-8 h-8 object-cover" src="/static/images/share.png" alt="share button"></button>
     </div>
     <h2 class="font-bold text-xl">{{ post.title }}</h2>
     <p>{{ post.caption }}</p>
