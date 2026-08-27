@@ -8,6 +8,11 @@ class FeedView(ListView):
     template_name = "posts/post_list.html"
     context_object_name = "posts"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["header"] = "Feed"
+        return context
+
 
 class PostListView(ListView):
     template_name = "posts/post_list.html"
@@ -15,6 +20,11 @@ class PostListView(ListView):
 
     def get_queryset(self):
         return models.Post.objects.filter(user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context["header"] = "My Posts"
+            return context
 
 
 class PostCreateView(CreateView):
