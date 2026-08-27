@@ -1,0 +1,49 @@
+{% load widget_tweaks %}
+
+<div class="space-y-4">
+  {% if form.non_field_errors %}
+    {% for error in form.non_field_errors %}
+      <p class="bg-red-500 text-white rounded-lg p-1 break-words">{{ error }}</p>
+    {% endfor %}
+  {% endif %}
+  
+  {% for field in form %}
+    <div>
+      {% if field.name == 'image' %}
+      <div>{{ field.label_tag }}</div>
+        <img class="w-32 h-32 object-cover rounded-full hidden" src="" alt="user post image">
+        {{ field|add_class:"hidden"|attr:"id:image-input"|attr:"accept:image/*" }}
+        <button
+          class="bg-blue-500 text-white font-bold px-4 py-2 rounded-lg cursor-pointer"
+          type="button"
+          onclick="document.getElementById('image-input').click()">
+          Choose Image
+        </button>
+      {% else %}
+        <div>{{ field.label_tag }}</div>
+        <div>{{ field|add_class:"px-4 py-2 bg-gray-100 rounded-lg w-full shadow focus:outline-blue-500" }}</div>
+        {% for error in field.errors %}
+          <small class="text-red-500 block break-words">{{ error }}</small>
+        {% endfor %}
+        {% if field.help_text %}
+          <small class="text-gray-500 block break-words">{{ field.help_text|safe }}</small>
+        {% endif %}
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>
+
+<script>
+  document.getElementById('image-input').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const preview = document.getElementById('image-preview');
+        preview.src = event.target.result;
+        preview.classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+</script>
