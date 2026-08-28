@@ -1,5 +1,6 @@
+from django.http import JsonResponse
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, View
 from . import models, forms
 
 
@@ -38,3 +39,17 @@ class PostCreateView(CreateView):
         self.object.save()
 
         return super().form_valid(form)
+
+
+class LikeView(View):
+    def post(self, request, post_pk):
+        post = models.Post.objects.get(pk=post_pk)
+
+        if request.user in post.liked_users.all():
+            post.liked_users.remove(request.user)
+            is_liked = False
+        else:
+            post.liked_users.add(request.user)
+            is_liked = True
+
+        return JsonResponse({"is_liked": is_liked, "likes": post.liked_users.count()})
