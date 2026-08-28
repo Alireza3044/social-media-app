@@ -3,12 +3,13 @@ from django.contrib.auth.models import User
 from django.utils.text import slugify
 
 class Post(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True)
+    title = models.CharField(max_length=50, db_index=True)
     image = models.ImageField(upload_to="posts/%Y/%m/%d/")
     caption = models.TextField(blank=True)
     slug = models.SlugField(max_length=50, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    liked_users = models.ManyToManyField(User, related_name="liked_posts")
 
     class Meta:
         constraints = [
