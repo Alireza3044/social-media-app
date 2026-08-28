@@ -23,6 +23,8 @@ class UserEditForm(forms.ModelForm):
 
 
 class ProfileEditForm(forms.ModelForm):
+    template_name = "accounts/form_snippet.html"
+
     class Meta:
         model = Profile
         fields = ["image"]
