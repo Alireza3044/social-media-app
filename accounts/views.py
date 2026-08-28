@@ -39,7 +39,7 @@ def register_view(request):
     if request.method == "POST":
         if form.is_valid():
             user = form.save()
-            models.Profile.objects.create(user=user, image=static("images/user_placeholder.png"))
+            models.Profile.objects.create(user=user)
             
             username = form.cleaned_data.get("username")
             messages.success(request, f"Welcome {username}, your account has been created successfuly.")

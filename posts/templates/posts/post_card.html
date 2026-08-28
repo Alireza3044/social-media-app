@@ -3,7 +3,10 @@
 <div class="w-128 px-4 py-2 space-y-3">
   <!-- User profile image and username -->
   <div class="flex items-center space-x-3 px-1">
-    <img class="w-10 h-10 object-cover rounded-full" src="{{ post.user.profile.image.url }}" alt="image of {{ post.user.username }}">
+    <img
+      class="w-10 h-10 object-cover rounded-full"
+      src="{% if post.user.profile.image %}{{ post.user.profile.image.url }}{% else %}{% static 'images/user_placeholder.png' %}{% endif %}"
+      alt="image of {{ post.user.username }}">
     <p class="font-bold">{{ post.user.username }}</p>
   </div>
   <img class="w-full max-h-full" src="{{ post.image.url }}" alt="{{ post.title }}">
