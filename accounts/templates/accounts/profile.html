@@ -13,5 +13,6 @@
     <p>{{ user.email }}</p>
     <a class="mt-6 bg-blue-500 text-white font-bold px-4 py-2 rounded-lg" href="{% url "accounts:password-change" %}">Change Password</a>
     <a class="bg-blue-500 text-white font-bold px-4 py-2 rounded-lg" href="{% url "accounts:profile-edit" %}">Edit Profile</a>
+    <a class="bg-blue-500 text-white font-bold px-4 py-2 rounded-lg" href="{% url "accounts:logout" %}">Logout</a>
   </div>
 {% endblock content %}
