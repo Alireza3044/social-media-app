@@ -1,9 +1,9 @@
+{% load static %}
+
 <div class="w-128 px-4 py-2 space-y-3">
   <!-- User profile image and username -->
   <div class="flex items-center space-x-3 px-1">
-    {% if post.user.profile.image %}
     <img class="w-10 h-10 object-cover rounded-full" src="{{ post.user.profile.image.url }}" alt="image of {{ post.user.username }}">
-    {% endif %}
     <p class="font-bold">{{ post.user.username }}</p>
   </div>
   <img class="w-full max-h-full" src="{{ post.image.url }}" alt="{{ post.title }}">
@@ -34,17 +34,16 @@
           <img
             class="w-8 h-8 object-cover"
             alt="like button"
-            x-bind:src="is_liked ? '/static/images/like_active.png' : '/static/images/like.png'"
-          >
+            x-bind:src="is_liked ? `{% static 'images/like_active.png' %}` : `{% static 'images/like.png' %}`">
         </button>
-        <span class="text-xl" x-text="likes"></span>
+        <span class="text-xl" x-text="likes" x-show="!!likes"></span>
       </div>
       
       <!-- Comment Section -->
-      <button class="cursor-pointer"><img class="w-8 h-8 object-cover" src="/static/images/comment.png" alt="comment button"></button>
+      <button class="cursor-pointer"><img class="w-8 h-8 object-cover" src="{% static 'images/comment.png' %}" alt="comment button"></button>
       
       <!-- Share Section -->
-      <button class="cursor-pointer"><img class="w-8 h-8 object-cover" src="/static/images/share.png" alt="share button"></button>
+      <button class="cursor-pointer"><img class="w-8 h-8 object-cover" src="{% static 'images/share.png' %}" alt="share button"></button>
     </div>
     <h2 class="font-bold text-xl">{{ post.title }}</h2>
     <p>{{ post.caption }}</p>

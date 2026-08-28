@@ -1,21 +1,22 @@
 {% load tailwind_cli %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="/static/images/logo.png" type="image/png">
+  <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/png">
   <title>Social Media App</title>
   {% tailwind_css %}
-  <script defer type="module" src="/static/js/htmx.min.js"></script>
-  <script defer type="module" src="/static/js/alpine.min.js"></script>
+  <script defer type="module" src="{% static 'js/htmx.min.js' %}"></script>
+  <script defer type="module" src="{% static 'js/alpine.min.js' %}"></script>
 </head>
 <body class="flex flex-col h-screen">
   <header class="fixed w-full h-12 shrink-0">
     <nav class="flex justify-between items-center bg-blue-500 text-white py-2 px-4 space-x-8">
         <a href="{% url "posts:post-list" %}" class="font-bold text-2xl tracking-tighter flex space-x-2 items-center">
-          <img class="w-8 h-8" src="/static/images/logo.png">
+          <img class="w-8 h-8" src="{% static 'images/logo.png' %}">
           <span>Social Media App</span>
         </a>
       </div>
