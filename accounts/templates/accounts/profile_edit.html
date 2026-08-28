@@ -5,12 +5,7 @@
     <form method="post" class="shadow-2xl px-10 py-6 rounded-lg w-90" enctype="multipart/form-data">
       {% csrf_token %}
       <h1 class="text-center text-3xl font-bold spacing-tight mb-4">{{ header }}</h1>
-      <div class="flex flex-col items-center w-full">
-        {% if profile_form.instance.image %}
-          <img src="{{ profile_form.instance.image.url|default:user.profile.image }}" alt="Current image" class="w-32 h-32 object-cover">
-        {% endif %}
-        {{ profile_form }}
-      </div>
+      {{ profile_form }}
       {{ user_form }}
       <div>
         <button class="bg-blue-500 text-white font-bold mt-4 px-4 py-2 w-full rounded-lg cursor-pointer" type="submit">{{ btn_text }}</button>

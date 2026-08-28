@@ -3,7 +3,7 @@ from .models import Post
 
 
 class PostForm(forms.ModelForm):
-    template_name = "posts/form_post_snippet.html"
+    template_name = "accounts/form_snippet.html"
 
     class Meta:
         model = Post
