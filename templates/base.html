@@ -15,10 +15,15 @@
 <body class="flex flex-col h-screen">
   <header class="fixed w-full h-12 shrink-0">
     <nav class="flex justify-between items-center bg-blue-500 text-white py-2 px-4 space-x-8">
-        <a href="{% url "posts:post-list" %}" class="font-bold text-2xl tracking-tighter flex space-x-2 items-center">
+      <div class="flex items-center space-x-10">
+        <a href="{% url "posts:feed" %}" class="flex space-x-2 items-center">
           <img class="w-8 h-8" src="{% static 'images/logo.png' %}">
-          <span>Social Media App</span>
+          <span class="font-bold text-2xl tracking-tighter">Social Media App</span>
         </a>
+        <div class="space-x-4">
+          <a href="{% url "posts:post-list" %}">My posts</a>
+          <a href="{% url "posts:post-create" %}">Create post</a>
+        </div>
       </div>
       {% if not user.is_authenticated %}
         <div class="space-x-4">
@@ -26,7 +31,7 @@
           <a href="{% url "accounts:register" %}">Register</a>
         </div>
       {% else %}
-        <a href="{% url "accounts:logout" %}">Logout</a>
+        <a href="{% url "accounts:profile" %}">Profile</a>
       {% endif %}
     </nav>
   </header>
