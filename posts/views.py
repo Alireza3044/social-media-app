@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, View
 from . import models, forms
@@ -47,9 +47,7 @@ class LikeView(View):
 
         if request.user in post.liked_users.all():
             post.liked_users.remove(request.user)
-            is_liked = False
         else:
             post.liked_users.add(request.user)
-            is_liked = True
 
-        return JsonResponse({"is_liked": is_liked, "likes": post.liked_users.count()})
+        return render(request, "posts/post_list.html#like-button", {"post": post})
