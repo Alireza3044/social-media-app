@@ -6,7 +6,7 @@ from . import models, forms
 
 class FeedView(ListView):
     model = models.Post
-    template_name = "posts/post_list.html"
+    template_name = "posts/feed.html"
     context_object_name = "posts"
 
     def get_context_data(self, **kwargs):
@@ -16,7 +16,7 @@ class FeedView(ListView):
 
 
 class PostListView(ListView):
-    template_name = "posts/post_list.html"
+    template_name = "posts/feed.html"
     context_object_name = "posts"
 
     def get_queryset(self):
@@ -50,4 +50,4 @@ class LikeView(View):
         else:
             post.liked_users.add(request.user)
 
-        return render(request, "posts/post_list.html#like-button", {"post": post})
+        return render(request, "posts/feed.html#like-button", {"post": post})
