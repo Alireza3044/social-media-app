@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, View
 from . import models, forms
@@ -12,6 +12,7 @@ class FeedView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["header"] = "Feed"
+        context["comment_form"] = forms.CommentForm()
         return context
 
 
@@ -51,3 +52,16 @@ class LikeView(View):
             post.liked_users.add(request.user)
 
         return render(request, "posts/feed.html#like-button", {"post": post})
+
+
+class CommentView(View):
+    def post(self, request, post_pk):
+        form = forms.CommentForm(request.POST)
+        
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.post = get_object_or_404(models.Post, pk=post_pk)
+            comment.save()
+
+            return render(request, "posts/feed.html#comment-list", {"post": comment.post})

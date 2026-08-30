@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load widget_tweaks %}
 
 
 {% partialdef like-button %}
@@ -23,6 +24,19 @@
 {% endpartialdef %}
 
 
+{% partialdef comment-list %}
+  <section id="comment-list-{{ post.pk }}" class="border-2 border-emerald-600 p-2 w-full space-y-2 {% if not post.comments.exists %}hidden{% endif %}">
+    <h2 class="text-xl font-bold mb-4">Comments</h2>
+    {% for comment in post.comments.all %}
+      <div class="w-full">
+        <h4 class="text-lg font-bold pl-2">{{ comment.user.username }}</h4>
+        <p>{{ comment.body }}</p>
+      </div>
+    {% endfor %}
+  </section>
+{% endpartialdef %}
+
+
 {% partialdef post-card %}
   <div class="w-128 px-4 py-2 space-y-3">
     <!-- User profile image and username -->
@@ -33,31 +47,64 @@
         alt="image of {{ post.user.username }}">
       <p class="font-bold">{{ post.user.username }}</p>
     </div>
+
+    <!-- Post image -->
     <img class="w-full max-h-full" src="{{ post.image.url }}" alt="{{ post.title }}">
-    <div class="px-1">
+    <div class="px-1" x-data="{ commentOpen: false }">
       <div class="flex space-x-4 mb-2">
-        <!-- Like Section -->
+        <!-- Like section -->
          {% partial like-button %}
         
-        <!-- Comment Section -->
-        <button class="cursor-pointer"><img class="w-8 h-8 object-cover" src="{% static 'images/comment.png' %}" alt="comment button"></button>
+        <!-- Comment button -->
+        <button
+          class="cursor-pointer"
+          @click="commentOpen = !commentOpen"
+        >
+          <img class="w-8 h-8 object-cover" src="{% static 'images/comment.png' %}" alt="comment button">
+        </button>
         
-        <!-- Share Section -->
+        <!-- Share button -->
         <button class="cursor-pointer"><img class="w-8 h-8 object-cover" src="{% static 'images/share.png' %}" alt="share button"></button>
       </div>
+
+      <!-- Post title & caption -->
       <h2 class="font-bold text-xl">{{ post.title }}</h2>
-      <p>{{ post.caption }}</p>
+      <p class="mb-4">{{ post.caption }}</p>
+      
+      <!-- Comment form -->
+      <div class="p-4 border-2 border-emerald-600 rounded-lg my-6" x-show="commentOpen">
+        <form
+          method="post"
+          hx-post="{% url 'posts:comment' post.pk %}"
+          hx-swap="outerHTML"
+          hx-target="#comment-list-{{ post.pk }}"
+        >
+          {% csrf_token %}
+          <label for="id_body" class="block text-gray-700 mb-2">Comment body:</label>
+          {{ comment_form.body|add_class:"w-full h-24 bg-gray-100 border-2 border-gray-400 rounded-lg px-2 py-1" }}
+          <button
+          class="bg-emerald-600 text-white font-bold px-2 py-1 rounded-lg"
+          type="submit"
+          @click="commentOpen = !commentOpen"
+          >
+            Comment
+          </button>
+        </form>
+      </div>
+
+      <!-- Comment list -->
+      {% partial comment-list %}
     </div>
   </div>
 {% endpartialdef %}
 
 
 {% block content %}
-<!-- Post container -->
-<h1 class="font-bold text-3xl text-center mt-3 mb-6">{{ header }}</h1>
-<div class="flex flex-col items-center mx-auto space-y-8">
-  {% for post in posts %}
-    {% partial post-card %}
-  {% endfor %}
-</div>
+  <!-- Post container -->
+  <h1 class="font-bold text-3xl text-center mt-3 mb-6">{{ header }}</h1>
+  <div class="flex flex-col items-center mx-auto space-y-8">
+    {% for post in posts %}
+      {% partial post-card %}
+    {% endfor %}
+  </div>
 {% endblock content %}
