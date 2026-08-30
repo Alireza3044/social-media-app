@@ -5,9 +5,11 @@ from . import models, forms
 
 
 class FeedView(ListView):
-    model = models.Post
     template_name = "posts/feed.html"
     context_object_name = "posts"
+
+    def get_queryset(self):
+        return models.Post.objects.prefetch_related("comments", "liked_users")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
