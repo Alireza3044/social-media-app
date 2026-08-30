@@ -11,8 +11,7 @@ class FeedView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["header"] = "Feed"
-        context["comment_form"] = forms.CommentForm()
+        context["form"] = forms.CommentForm()
         return context
 
 
@@ -46,7 +45,7 @@ class LikeView(View):
         else:
             post.liked_users.add(request.user)
 
-        return render(request, "posts/feed.html#like-button", {"post": post})
+        return render(request, "posts/feed.html#like-section", {"post": post})
 
 
 class CommentView(View):
