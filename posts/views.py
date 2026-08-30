@@ -26,6 +26,7 @@ class PostListView(ListView):
     def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
             context["header"] = "My Posts"
+            context["comment_form"] = forms.CommentForm()
             return context
 
 
