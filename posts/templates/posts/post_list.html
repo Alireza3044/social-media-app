@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% partialdef post-card %}
+  <div class="w-128 px-4 py-2 space-y-3 border-2 border-blue-500">
+
+    <!-- Post image -->
+    <img class="w-full max-h-full" src="{{ post.image.url }}" alt="{{ post.title }}">
+    <div class="px-1">
+      <!-- Post title & caption -->
+      <h2 class="font-bold text-xl">{{ post.title }}</h2>
+      <p class="mb-4">{{ post.caption }}</p>
+
+      <!-- Like count -->
+      <div class="flex items-end space-x-2 mb-2">
+        <img
+        class="w-6 h-6 object-cover"
+        alt="like button"
+        src="{% static 'images/like_active.png' %}"
+        />
+        <span class="text-xl">{{ post.liked_users.count }}</span>
+        <span>like{{ post.liked_users.count|pluralize }}</span>
+      </div>
+      
+      <!-- Comment count -->
+      <div class="flex items-end space-x-2">
+        <img
+          class="w-6 h-6 object-cover"
+          alt="like button"
+          src="{% static 'images/comment.png' %}"
+        />
+        <span class="text-xl">{{ post.comments.count }}</span>
+        <span>Comment{{ post.comments.count|pluralize }}</span>
+      </div>
+    </div>
+  </div>
+{% endpartialdef %}
+
+
+{% block content %}
+  <!-- Post container -->
+  <h1 class="font-bold text-3xl text-center mt-3 mb-6">{{ header }}</h1>
+  <div class="flex flex-col items-center mx-auto space-y-8">
+    {% for post in posts %}
+      {% partial post-card %}
+    {% endfor %}
+  </div>
+{% endblock content %}

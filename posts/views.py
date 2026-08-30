@@ -17,17 +17,11 @@ class FeedView(ListView):
 
 
 class PostListView(ListView):
-    template_name = "posts/feed.html"
+    template_name = "posts/post_list.html"
     context_object_name = "posts"
 
     def get_queryset(self):
-        return models.Post.objects.filter(user=self.request.user)
-
-    def get_context_data(self, **kwargs):
-            context = super().get_context_data(**kwargs)
-            context["header"] = "My Posts"
-            context["comment_form"] = forms.CommentForm()
-            return context
+        return models.Post.objects.filter(user=self.request.user).prefetch_related("comments", "liked_users")
 
 
 class PostCreateView(CreateView):
