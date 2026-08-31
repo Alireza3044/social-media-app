@@ -38,5 +38,13 @@ class Comment(models.Model):
     body = models.TextField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "post"],
+                name="unique_user_post"
+            )
+        ]
+
     def __str__(self):
         return f"{self.user.username} on {self.post.title}"
