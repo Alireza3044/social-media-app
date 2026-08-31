@@ -7,12 +7,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/png">
+  <link rel="stylesheet" href="{% static "css/index.css" %}">
   <title>Social Media App</title>
   {% tailwind_css %}
   <script defer type="module" src="{% static 'js/htmx.min.js' %}"></script>
   <script defer type="module" src="{% static 'js/alpine.min.js' %}"></script>
 </head>
-<body class="flex flex-col h-screen" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+<body class="flex flex-col h-screen font-[NotoSans]" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
   <header class="fixed w-full h-12 shrink-0">
     <nav class="flex justify-between items-center bg-blue-500 text-white py-2 px-4 space-x-8">
       <div class="flex items-center space-x-10">
