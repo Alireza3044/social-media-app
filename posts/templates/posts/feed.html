@@ -3,42 +3,8 @@
 {% load widget_tweaks %}
 
 
-{% partialdef like-section %}
-  <div id="like-button-{{ post.pk }}" class="flex items-center space-x-2">
-    <button
-      class="cursor-pointer"
-      hx-post="{% url "posts:like" post.pk %}"
-      hx-swap="outerHTML"
-      hx-target="#like-button-{{ post.pk }}"
-    >
-      <img
-        class="w-8 h-8 object-cover"
-        alt="like button"
-        src="{% if user in post.liked_users.all %}{% static 'images/like_active.png' %}{% else %}{% static 'images/like.png' %}{% endif %}"
-      />
-    </button>
-    {% if post.liked_users.count > 0 %}
-      <span class="text-xl">{{ post.liked_users.count }}</span>
-    {% endif %}
-  </div>
-{% endpartialdef %}
-
-
-{% partialdef comment-list %}
-  <section id="comment-list-{{ post.pk }}" class="border-2 border-emerald-600 p-2 w-full space-y-2 {% if not post.comments.exists %}hidden{% endif %}">
-    <h2 class="text-xl font-bold mb-4">Comments</h2>
-    {% for comment in post.comments.all %}
-      <div class="w-full">
-        <h4 class="text-lg font-bold pl-2">{{ comment.user.username }}</h4>
-        <p>{{ comment.body }}</p>
-      </div>
-    {% endfor %}
-  </section>
-{% endpartialdef %}
-
-
 {% partialdef post-card %}
-  <div class="w-128 px-4 py-2 space-y-3 border-2 border-blue-500">
+  <div id="post-card-{{ post.pk }}" class="w-128 px-4 py-2 space-y-3 border-2 border-blue-500">
     <!-- User profile image and username -->
     <div class="flex items-center space-x-3 px-1">
       <img
@@ -50,10 +16,29 @@
 
     <!-- Post image -->
     <img class="w-full max-h-full" src="{{ post.image.url }}" alt="{{ post.title }}">
+    
     <div class="px-1" x-data="{ commentOpen: false }">
+      <!-- Social buttons -->
       <div class="flex space-x-4 mb-2">
         <!-- Like section -->
-        {% partial like-section %}
+        <div id="like-button-{{ post.pk }}" class="flex items-center space-x-2">
+          <button
+            class="cursor-pointer"
+            hx-post="{% url "posts:post-card" post.pk %}"
+            hx-headers='{"Post-Like": "true"}'
+            hx-swap="outerHTML"
+            hx-target="#post-card-{{ post.pk }}"
+          >
+            <img
+              class="w-8 h-8 object-cover"
+              alt="like button"
+              src="{% if user in post.liked_users.all %}{% static 'images/like_active.png' %}{% else %}{% static 'images/like.png' %}{% endif %}"
+            />
+          </button>
+          {% if post.liked_users.count > 0 %}
+            <span class="text-xl">{{ post.liked_users.count }}</span>
+          {% endif %}
+        </div>
         
         <!-- Comment section -->
         <div class="flex items-center space-x-2">
@@ -67,9 +52,6 @@
             <span class="text-xl">{{ post.comments.count }}</span>
           {% endif %}
         </div>
-        
-        <!-- Share button -->
-        {% comment %} <button class="cursor-pointer"><img class="w-8 h-8 object-cover" src="{% static 'images/share.png' %}" alt="share button"></button> {% endcomment %}
       </div>
 
       <!-- Post title & caption -->
@@ -78,18 +60,30 @@
       
       <!-- Comment form -->
       <div class="p-4 border-2 border-emerald-600 rounded-lg my-6" x-show="commentOpen">
+        {% if form.non_field_errors %}
+          <div class="text-red-700">
+            {% for error in form.non_field_errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
         <form
           method="post"
-          hx-post="{% url 'posts:comment' post.pk %}"
+          hx-post="{% url 'posts:post-card' post.pk %}"
           hx-swap="outerHTML"
-          hx-target="#comment-list-{{ post.pk }}"
-        > 
+          hx-headers='{"Post-Comment": "true"}'
+          hx-target="#post-card-{{ post.pk }}"
+        >
           {% csrf_token %}
-          {{ form }}
+          {% if form.body.errors %}
+            {% for error in form.body.errors %}
+              <p class="text-red-700">{{ error }}</p>
+            {% endfor %}
+          {% endif %}
+          {{ form.body }}
           <button
           class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2 py-1 rounded-lg cursor-pointer"
           type="submit"
-          @click="commentOpen = !commentOpen"
           >
             Comment
           </button>
@@ -97,7 +91,15 @@
       </div>
 
       <!-- Comment list -->
-      {% partial comment-list %}
+      <section class="border-2 border-emerald-600 p-2 w-full space-y-2 {% if not post.comments.exists %}hidden{% endif %}">
+        <h2 class="text-xl font-bold mb-4">Comments</h2>
+        {% for comment in post.comments.all %}
+          <div class="w-full">
+            <h4 class="text-lg font-bold pl-2">{{ comment.user.username }}</h4>
+            <p>{{ comment.body }}</p>
+          </div>
+        {% endfor %}
+      </section>
     </div>
   </div>
 {% endpartialdef %}

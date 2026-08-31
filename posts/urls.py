@@ -7,6 +7,5 @@ urlpatterns = [
     path("", views.PostListView.as_view(), name="post-list"),
     path("create/", views.PostCreateView.as_view(), name="post-create"),
     path("feed/", views.FeedView.as_view(), name="feed"),
-    path("like/<int:post_pk>/", views.LikeView.as_view(), name="like"),
-    path("comment/<int:post_pk>/", views.CommentView.as_view(), name="comment"),
+    path("post-card/<int:post_pk>/", views.PostCardView.as_view(), name="post-card"),
 ]

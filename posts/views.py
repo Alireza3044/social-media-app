@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, View
 from . import models, forms
@@ -38,26 +38,47 @@ class PostCreateView(CreateView):
         return super().form_valid(form)
 
 
-class LikeView(View):
+class PostCardView(View):
     def post(self, request, post_pk):
-        post = models.Post.objects.get(pk=post_pk)
-
-        if request.user in post.liked_users.all():
-            post.liked_users.remove(request.user)
-        else:
-            post.liked_users.add(request.user)
-
-        return render(request, "posts/feed.html#like-section", {"post": post})
-
-
-class CommentView(View):
-    def post(self, request, post_pk):
-        form = forms.CommentForm(request.POST)
+        post = get_object_or_404(models.Post, pk=post_pk)
+        form = forms.CommentForm(request.POST, user=request.user, post=post)
+        context = {
+            "post": post,
+            "form": form
+        }
         
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.user = request.user
-            comment.post = get_object_or_404(models.Post, pk=post_pk)
-            comment.save()
+        # On Comment Request
+        if request.headers.get("Post-Comment"):
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.user = request.user
+                comment.post = post
+                comment.save()
 
-            return render(request, "posts/feed.html#comment-list", {"post": comment.post})
+                if request.headers.get("Hx-Request"):
+                    return render(request, f"posts/feed.html#post-card", context)
+                else:
+                    return redirect("posts:feed")
+            else:
+                if request.headers.get("Hx-Request"):
+                    return render(request, f"posts/feed.html#post-card", context)
+                else:
+                    return redirect("posts:feed")
+        
+        # On Like Request
+        elif request.headers.get("Post-Like"):
+            post = models.Post.objects.get(pk=post_pk)
+
+            if request.user in post.liked_users.all():
+                post.liked_users.remove(request.user)
+            else:
+                post.liked_users.add(request.user)
+
+            if request.headers.get("Hx-Request"):
+                return render(request, f"posts/feed.html#post-card", context)
+            else:
+                return redirect("posts:feed")
+
+        # On Everything Else
+        else:
+            return redirect("posts:feed")
