@@ -1,0 +1,27 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>404</title>
+  <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/png">
+  <link rel="stylesheet" href="{% static "css/index.css" %}">
+  <style>
+    * {
+      font-family: "NotoSans";
+    }
+    main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Error 404 Page Not Found</h1>
+    <p>The requested page does not found on this website.</p>
+  </main>
+</body>
+</html>
