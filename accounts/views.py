@@ -11,7 +11,7 @@ class ProfileView(TemplateView):
 
 
 class ProfileEditView(FormView):
-    form_class = forms.UserEditForm
+    form_class = forms.ProfileEditForm
     template_name = "accounts/profile_edit.html"
     success_url = reverse_lazy("accounts:profile")
 

@@ -13,7 +13,7 @@ class RegisterForm(auth_forms.UserCreationForm):
         fields = ["username", "first_name", "last_name", "email", "password1", "password2"]
 
 
-class UserEditForm(forms.Form):
+class ProfileEditForm(forms.Form):
     username = forms.CharField(
         max_length=150,
         required=True,
