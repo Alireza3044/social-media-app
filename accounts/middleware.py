@@ -1,9 +1,5 @@
 from django.shortcuts import redirect
 from django.urls import reverse
-import logging
-
-logger = logging.getLogger(__name__)
-
 
 class AuthenticationMiddleware:
     """Requires authentication for all pages except public endpoints."""
@@ -30,13 +26,11 @@ class AuthenticationMiddleware:
     
     def __call__(self, request):
         """Handle request: allow if authenticated or on public URL, otherwise redirect to login."""
-        logger.debug(f"Processing request: {request.method} {request.path}")
 
         # Authenticated
         if request.user.is_authenticated:
             for url in self.logged_in_excluded_urls:
                 if request.path.startswith(url):
-                    logger.debug(f"Authenticated user redirected from auth page: {request.path}")
                     return redirect("accounts:profile")
             return self.get_response(request)
         
@@ -45,9 +39,7 @@ class AuthenticationMiddleware:
             # Allow unauthenticated access to public pages
             for url in self.public_urls:
                 if request.path.startswith(url):
-                    logger.debug(f"Public URL access allowed: {request.path}")
                     return self.get_response(request)
             
             # Redirect to login for protected pages
-            logger.info(f"Redirecting unauthenticated user to login: {request.path}")
             return redirect(self.login_url)
