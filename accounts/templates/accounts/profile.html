@@ -4,8 +4,8 @@
 {% block content %}
   <div class="flex flex-col justify-center items-center min-h-screen p-10 space-y-2">
     <img
-      class="w-32 max-h-32"
-      src="{% if post.user.profile.image %}{{ post.user.profile.image.url }}{% else %}{% static 'images/user_placeholder.png' %}{% endif %}"
+      class="w-32 h-32 object-cover rounded-full"
+      src="{% if user.profile.image %}{{ user.profile.image.url }}{% else %}{% static 'images/user_placeholder.png' %}{% endif %}"
       alt="{{ user.username }}">
     <h2 class="text-2xl">{{ user.username }}</h2>
     <p>{{ user.first_name }}</p>
