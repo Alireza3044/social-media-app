@@ -2,8 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth import logout, views
-from django.views.generic import TemplateView
-from django.templatetags.static import static
+from django.views.generic import TemplateView, FormView
 from . import forms, models
 
 
@@ -11,26 +10,26 @@ class ProfileView(TemplateView):
     template_name = "accounts/profile.html"
 
 
-def profile_edit_view(request):
-    user_form = forms.UserEditForm(instance=request.user)
-    profile_form = forms.ProfileEditForm(instance=request.user.profile)
+class ProfileEditView(FormView):
+    form_class = forms.UserEditForm
+    template_name = "accounts/profile_edit.html"
+    success_url = reverse_lazy("accounts:profile")
+
+    def get_initial(self):
+        initial = super().get_initial()
+        user = self.request.user
+        initial.update({
+            "username": user.username,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "email": user.email,
+            "image": user.profile.image
+        })
+        return initial
     
-    if request.method == "POST":
-        user_form = forms.UserEditForm(request.POST, instance=request.user)
-        profile_form = forms.ProfileEditForm(request.POST, request.FILES, instance=request.user.profile)
-        
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            return redirect("accounts:profile")
-    
-    context = {
-        "user_form": user_form,
-        "profile_form": profile_form,
-        "header": "Edit Profile",
-        "btn_text": "Submit",
-    }
-    return render(request, "accounts/profile_edit.html", context)
+    def form_valid(self, form):
+        form.save(self.request.user)
+        return super().form_valid(form)
 
 
 def register_view(request):
