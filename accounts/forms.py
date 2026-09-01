@@ -1,5 +1,6 @@
 from django.contrib.auth import forms as auth_forms
 from django.contrib.auth.models import User
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from django import forms
 
 
@@ -22,7 +23,8 @@ class UserEditForm(forms.Form):
             "class": "px-2 py-1 w-full bg-gray-100 border-2 border-gray-400 rounded-lg shadow focus:outline-blue-500",
             "placeholder": "Username...",
         }),
-        label="Username:"
+        label="Username:",
+        validators=[UnicodeUsernameValidator]
     )
     image = forms.ImageField(
         required=False,
