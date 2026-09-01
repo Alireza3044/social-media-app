@@ -12,25 +12,22 @@ class ProfileView(TemplateView):
 
 
 def profile_edit_view(request):
-    user_form = forms.UserEditForm(instance=request.user)
-    profile_form = forms.ProfileEditForm(instance=request.user.profile)
+    form = forms.UserEditForm(dict(
+        username=request.user.username,
+        first_name=request.user.first_name,
+        last_name=request.user.last_name,
+        email=request.user.email,
+        image=request.user.profile.image
+    ))
     
     if request.method == "POST":
-        user_form = forms.UserEditForm(request.POST, instance=request.user)
-        profile_form = forms.ProfileEditForm(request.POST, request.FILES, instance=request.user.profile)
+        form = forms.UserEditForm(request.POST, request.FILES)
         
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
+        if form.is_valid():
+            form.save()
             return redirect("accounts:profile")
     
-    context = {
-        "user_form": user_form,
-        "profile_form": profile_form,
-        "header": "Edit Profile",
-        "btn_text": "Submit",
-    }
-    return render(request, "accounts/profile_edit.html", context)
+    return render(request, "accounts/profile_edit.html", {"form": form})
 
 
 def register_view(request):

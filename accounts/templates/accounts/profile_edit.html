@@ -1,16 +1,89 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="flex flex-col justify-center items-center min-h-screen p-10">
-    <form method="post" class="shadow-2xl px-10 py-6 rounded-lg w-90" enctype="multipart/form-data">
-      {% csrf_token %}
-      <h1 class="text-center text-3xl font-bold spacing-tight mb-4">{{ header }}</h1>
-      {{ profile_form }}
-      <br class="mb-4">
-      {{ user_form }}
-      <div>
-        <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold mt-4 px-4 py-2 w-full rounded-lg cursor-pointer" type="submit">{{ btn_text }}</button>
-      </div>
-    </form>
+  <div class="container mx-auto h-full flex justify-center items-center">
+    <div class="shadow-2xl px-10 py-6 rounded-lg w-90">
+      <form class="space-y-4" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1 class="text-center text-3xl font-bold spacing-tight">Edit Profile</h1>
+        <div class="space-y-4">
+          <div>
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            {% for error in form.username.errors %}
+              <small class="text-red-500 block break-words">{{ error }}</small>
+            {% endfor %}
+            {% if form.username.help_text %}
+              <small class="text-gray-500 block break-words">{{ field.help_text|safe }}</small>
+            {% endif %}
+          </div>
+
+          <div x-data="{ 
+              imagePreview: '',
+              fileChosen(event) {
+                const file = event.target.files[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onload = (e) => {
+                    this.imagePreview = e.target.result;
+                  };
+                  reader.readAsDataURL(file);
+                }
+              }
+            }">
+              {{ form.image.label_tag }}
+              <div class="flex flex-col items-center space-y-2">
+                <img 
+                class="w-64 h-64 object-cover rounded-full"
+                :class="{ 'hidden': !imagePreview }"
+                :src="imagePreview" 
+                alt="user post image"
+                >
+                {{ form.image }}
+                <button
+                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 py-2 rounded-lg cursor-pointer"
+                  type="button"
+                  @click="$refs.imageInput.click()">
+                  Choose Image
+                </button>
+              </div>
+            </div>
+
+            <div>
+              {{ form.first_name.label_tag }}
+              {{ form.first_name }}
+              {% for error in form.first_name.errors %}
+                <small class="text-red-500 block break-words">{{ error }}</small>
+              {% endfor %}
+              {% if form.first_name.help_text %}
+                <small class="text-gray-500 block break-words">{{ field.help_text|safe }}</small>
+              {% endif %}
+            </div>
+            
+            <div>
+              {{ form.last_name.label_tag }}
+              {{ form.last_name }}
+              {% for error in form.last_name.errors %}
+                <small class="text-red-500 block break-words">{{ error }}</small>
+              {% endfor %}
+              {% if form.last_name.help_text %}
+                <small class="text-gray-500 block break-words">{{ field.help_text|safe }}</small>
+              {% endif %}
+            </div>
+            
+            <div>
+              {{ form.email.label_tag }}
+              {{ form.email }}
+              {% for error in form.email.errors %}
+                <small class="text-red-500 block break-words">{{ error }}</small>
+              {% endfor %}
+              {% if form.email.help_text %}
+                <small class="text-gray-500 block break-words">{{ field.help_text|safe }}</small>
+              {% endif %}
+            </div>
+          </div>
+        <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 py-2 w-full rounded-lg cursor-pointer" type="submit">Submit</button>
+      </form>
+    </div>
   </div>
 {% endblock content %}
