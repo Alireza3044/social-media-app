@@ -41,14 +41,11 @@ class PostCreateView(CreateView):
 class PostCardView(View):
     def post(self, request, post_pk):
         post = get_object_or_404(models.Post, pk=post_pk)
-        form = forms.CommentForm(request.POST, user=request.user, post=post)
-        context = {
-            "post": post,
-            "form": form
-        }
         
         # On Comment Request
         if request.headers.get("Post-Comment"):
+            form = forms.CommentForm(request.POST, user=request.user, post=post)
+            
             if form.is_valid():
                 comment = form.save(commit=False)
                 comment.user = request.user
@@ -56,11 +53,13 @@ class PostCardView(View):
                 comment.save()
 
                 if request.headers.get("Hx-Request"):
+                    context = dict(post=post, form=forms.CommentForm())
                     return render(request, f"posts/feed.html#post-card", context)
                 else:
                     return redirect("posts:feed")
             else:
                 if request.headers.get("Hx-Request"):
+                    context = dict(post=post, form=form)
                     return render(request, f"posts/feed.html#post-card", context)
                 else:
                     return redirect("posts:feed")
@@ -75,6 +74,7 @@ class PostCardView(View):
                 post.liked_users.add(request.user)
 
             if request.headers.get("Hx-Request"):
+                context = dict(post=post, form=forms.CommentForm())
                 return render(request, f"posts/feed.html#post-card", context)
             else:
                 return redirect("posts:feed")
