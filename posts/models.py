@@ -7,7 +7,7 @@ class Post(models.Model):
     title = models.CharField(max_length=50, db_index=True)
     image = models.ImageField(upload_to="posts/%Y/%m/%d/")
     caption = models.TextField(blank=True)
-    slug = models.SlugField(max_length=50, blank=True)
+    slug = models.SlugField(max_length=50, blank=True, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     liked_users = models.ManyToManyField(User, related_name="liked_posts")
 
@@ -16,10 +16,6 @@ class Post(models.Model):
             models.UniqueConstraint(
                 fields=["user", "title"],
                 name="unique_user_title"
-            ),
-            models.UniqueConstraint(
-                fields=["slug"],
-                name="unique_slug"
             )
         ]
 
