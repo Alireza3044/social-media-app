@@ -18,6 +18,7 @@ class Post(models.Model):
                 name="unique_user_title"
             )
         ]
+        ordering = ["-created_at"]
 
     def __str__(self):
         return self.title
