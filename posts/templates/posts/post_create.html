@@ -4,9 +4,55 @@
   <div class="container mx-auto h-full flex justify-center items-center">
     <div class="shadow-2xl px-10 py-6 rounded-lg w-90">
       <form method="post" enctype="multipart/form-data">
-        <h2 class="text-2xl text-center">Create Post</h2>
+        <h2 class="text-2xl text-center mb-4">Create Post</h2>
         {% csrf_token %}
-        {{ form }}
+        <div class="space-y-4">
+          {{ form.title }}
+          {% for error in form.title.errors %}
+            <small class="text-red-500 block break-words">{{ error }}</small>
+          {% endfor %}
+          {% if form.title.help_text %}
+            <small class="text-gray-500 block break-words">{{ field.help_text|safe }}</small>
+          {% endif %}
+
+          <div x-data="{ 
+            imagePreview: '',
+            fileChosen(event) {
+              const file = event.target.files[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                  this.imagePreview = e.target.result;
+                };
+                reader.readAsDataURL(file);
+              }
+            }
+          }">
+            <div class="flex flex-col items-center space-y-2">
+              <img 
+              class="w-64 h-64 object-cover rounded-full"
+              :class="{ 'hidden': !imagePreview }"
+              :src="imagePreview" 
+              alt="user post image"
+              >
+              {{ form.image }}
+              <button
+                class="bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 py-2 rounded-lg cursor-pointer"
+                type="button"
+                @click="$refs.imageInput.click()">
+                Choose Image
+              </button>
+            </div>
+          </div>
+
+          {{ form.caption }}
+          {% for error in form.caption.errors %}
+            <small class="text-red-500 block break-words">{{ error }}</small>
+          {% endfor %}
+          {% if form.caption.help_text %}
+            <small class="text-gray-500 block break-words">{{ field.help_text|safe }}</small>
+          {% endif %}
+        </div>
         <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold mt-4 px-4 py-2 w-full rounded-lg cursor-pointer" type="submit">Create</button>
       </form>
     </div>
