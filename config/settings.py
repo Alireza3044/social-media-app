@@ -169,8 +169,18 @@ LOGIN_REDIRECT_URL = 'accounts:profile'
 
 # Emailing
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
+MAILERS = {
+    "default": {
+        "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
+        "OPTIONS": {
+            "host": config("EMAIL_HOST"),
+            "port": config("EMAIL_PORT", cast=int),
+            "username": config("EMAIL_HOST_USERNAME"),
+            "password": config("EMAIL_HOST_PASSWORD"),
+            "use_tls": config("EMAIL_USE_TLS"),
+        },
+    },
+}
 
 # Media
 
