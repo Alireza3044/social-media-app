@@ -11,9 +11,6 @@
           {% for error in form.title.errors %}
             <small class="text-red-500 block break-words">{{ error }}</small>
           {% endfor %}
-          {% if form.title.help_text %}
-            <small class="text-gray-500 block break-words">{{ field.help_text|safe }}</small>
-          {% endif %}
 
           <div x-data="{ 
             imagePreview: '',
@@ -49,9 +46,6 @@
           {% for error in form.caption.errors %}
             <small class="text-red-500 block break-words">{{ error }}</small>
           {% endfor %}
-          {% if form.caption.help_text %}
-            <small class="text-gray-500 block break-words">{{ field.help_text|safe }}</small>
-          {% endif %}
         </div>
         <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold mt-4 px-4 py-2 w-full rounded-lg cursor-pointer" type="submit">Create</button>
       </form>
