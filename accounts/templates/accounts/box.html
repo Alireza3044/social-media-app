@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mx-auto h-full flex justify-center items-center">
+    <div class="shadow-2xl px-10 py-6 rounded-lg w-90 space-y-4">
+      {% block box %}{% endblock box %}
+    </div>
+  </div>
+{% endblock content %}

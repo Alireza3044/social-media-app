@@ -1,0 +1,10 @@
+{% extends "accounts/box.html" %}
+
+{% block box %}
+  <form method="post">
+    {% csrf_token %}
+    <h1 class="text-center text-3xl font-bold spacing-tight mb-4">Register</h1>
+    {% include "accounts/form_snippet.html" %}
+    <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold mt-4 px-4 py-2 w-full rounded-lg cursor-pointer" type="submit">Register</button>
+  </form>
+{% endblock box %}

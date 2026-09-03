@@ -76,19 +76,3 @@ class ProfileEditForm(forms.Form):
             user.profile.save()
         
         return user
-
-
-class LoginForm(auth_forms.AuthenticationForm):
-    template_name = "accounts/form_snippet.html"
-
-
-class PasswordChangeForm(auth_forms.PasswordChangeForm):
-    template_name = "accounts/form_snippet.html"
-
-
-class PasswordResetForm(auth_forms.PasswordResetForm):
-    template_name = "accounts/form_snippet.html"
-
-
-class PasswordResetConfirmForm(auth_forms.SetPasswordForm):
-    template_name = "accounts/form_snippet.html"

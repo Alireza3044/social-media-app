@@ -21,10 +21,12 @@
           <img class="w-8 h-8" src="{% static 'images/logo.png' %}">
           <span class="font-bold text-2xl tracking-tighter">Social Media App</span>
         </a>
-        <div class="space-x-4">
-          <a class="hover:text-gray-200" href="{% url "posts:post-list" %}">My posts</a>
-          <a class="hover:text-gray-200" href="{% url "posts:post-create" %}">Create post</a>
-        </div>
+        {% if user.is_authenticated %}
+          <div class="space-x-4">
+            <a class="hover:text-gray-200" href="{% url "posts:post-list" %}">My posts</a>
+            <a class="hover:text-gray-200" href="{% url "posts:post-create" %}">Create post</a>
+          </div>
+        {% endif %}
       </div>
       {% if not user.is_authenticated %}
         <div class="space-x-4">
@@ -35,18 +37,17 @@
         <a class="hover:text-gray-200" href="{% url "accounts:profile" %}">Profile</a>
       {% endif %}
     </nav>
-  </header>
-  <main class="mt-12 flex-1 overflow-y-auto">
     {% if messages %}
       <div>
         {% for message in messages %}
-          <div class="bg-green-500 text-green-700">
+          <p class="bg-green-500 text-green-700 text-center">
             {{ message }}
-          </div>
+          </p>
         {% endfor %}
       </div>
     {% endif %}
-    
+  </header>
+  <main class="mt-12 flex-1 overflow-y-auto">
     {% block content %}{% endblock content %}
   </main>
 </body>

@@ -9,48 +9,15 @@
   
   {% for field in form %}
     <div>
-      {% if field.name == 'image' %}
-        <div x-data="{ 
-            imagePreview: '',
-            fileChosen(event) {
-              const file = event.target.files[0];
-              if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                  this.imagePreview = e.target.result;
-                };
-                reader.readAsDataURL(file);
-              }
-            }
-        }">
-          <div>{{ field.label_tag }}</div>
-          
-          <div class="flex flex-col items-center space-y-2">
-            <img 
-            class="w-64 h-64 object-cover rounded-full"
-            :class="{ 'hidden': !imagePreview }"
-            :src="imagePreview" 
-            alt="user post image">
-            
-          {{ field|add_class:"hidden"|attr:"id:image-input"|attr:"accept:image/*"|attr:"@change:fileChosen($event)"|attr:"x-ref:imageInput" }}
-          
-          <button
-            class="bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 py-2 rounded-lg cursor-pointer"
-            type="button"
-            @click="$refs.imageInput.click()">
-            Choose Image
-          </button>
-          </div>
-        </div>
-      {% else %}
-        <div>{{ field.label_tag }}</div>
-        <div>{{ field|add_class:"px-4 py-2 bg-gray-100 rounded-lg w-full shadow focus:outline-blue-500" }}</div>
-        {% for error in field.errors %}
-          <small class="text-red-500 block break-words">{{ error }}</small>
-        {% endfor %}
-        {% if field.help_text %}
-          <small class="text-gray-500 block break-words">{{ field.help_text|safe }}</small>
-        {% endif %}
+      {{ field.label_tag }}
+      {{ field|add_class:"px-2 py-1 w-full bg-gray-100 border-2 border-gray-400 rounded-lg shadow focus:outline-blue-500" }}
+      
+      {% for error in field.errors %}
+        <small class="text-red-500 block break-words">{{ error }}</small>
+      {% endfor %}
+      
+      {% if field.help_text %}
+        <small class="text-gray-500 block break-words">{{ field.help_text|safe }}</small>
       {% endif %}
     </div>
   {% endfor %}

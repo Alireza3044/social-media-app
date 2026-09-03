@@ -1,5 +1,13 @@
-{% extends "accounts/box_form.html" %}
+{% extends "accounts/box.html" %}
 
-{% block forgot_password %}
-  <a href={% url "accounts:password-reset" %} class="text-blue-500 hover:text-blue-600 text-sm">Forgot your password? click here.</a>
-{% endblock forgot_password %}
+{% block box %}
+  <form class="space-y-4" method="post">
+    {% csrf_token %}
+    <h1 class="text-center text-3xl font-bold spacing-tight">Login</h1>
+    {% include "accounts/form_snippet.html" %}
+    <div>
+      <button class="hover:bg-blue-600 bg-blue-500 text-white font-bold px-4 py-2 w-full rounded-lg cursor-pointer" type="submit">Login</button>
+    <a href={% url "accounts:password-reset" %} class="text-blue-500 hover:text-blue-600 text-sm m-0">Forgot your password? click here.</a>
+    </div>
+  </form>
+{% endblock box %}
